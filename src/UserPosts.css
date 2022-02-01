@@ -1,0 +1,13 @@
+#postsContainer {
+  padding: 10px 50px;
+}
+
+.postItem {
+  border-bottom: 1px dashed #ddd;
+}
+
+#drawerTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
