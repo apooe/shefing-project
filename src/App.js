@@ -12,10 +12,9 @@ function App() {
           <Typography variant="h3" component={"h1"} align={"center"} p>
             Users
           </Typography>
-          <div className="App">
             <UsersTable />
           </div>
-        </div>
+
       </SnackbarProvider>
     </>
   );

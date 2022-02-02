@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function UserPosts({user}) {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [posts, setPosts] = useState([]); //posts of the selected user
-    const {enqueueSnackbar} = useSnackbar(); //Unable to load user's posts case
+    const {enqueueSnackbar} = useSnackbar(); // Toast message provider
 
     /**
      * Get posts of selected user
@@ -40,14 +40,13 @@ export default function UserPosts({user}) {
      * @param title - Post title
      * @param body - Post body
      */
-    const printNewPost = (title, body) => {
-        if (title && body) {
-            //last id in  posts array
-            const lastPostId = posts[posts.length - 1].id;
-            //"add" new post in start of the array
-            posts.unshift({title, body, id: lastPostId + 1});
-        }
-    }
+    const handleCreatePost = (title, body) => {
+
+        const fakePostId = posts[posts.length - 1].id + 1;
+        const newPost = { title, body, id: fakePostId };
+        const newPostList = [newPost, ...posts];
+        setPosts(newPostList);
+    };
 
     return (
         <div id="postsContainer">
@@ -75,9 +74,7 @@ export default function UserPosts({user}) {
                 <div><CircularProgress/>
                 </div>
             )}
-            <CreatePostDialog open={showAddDialog} getNewPost={(title, body) => {
-                printNewPost(title, body)
-            }} onClose={() => setShowAddDialog(false)
+            <CreatePostDialog open={showAddDialog} onSubmit={handleCreatePost} onClose={() => setShowAddDialog(false)
             }/>
         </div>
     );

@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import {useSnackbar} from "notistack";
 
 
 /**
@@ -15,15 +16,28 @@ import Button from "@mui/material/Button";
  * @param onClose - Function to execute when closing the dialog box
  * @param getNewPost - Get new post title and body of user
  */
-export function CreatePostDialog({open, onClose, getNewPost}) {
+export function CreatePostDialog({open, onClose, onSubmit}) {
 
-    const [title, setTitle] = useState("")
-    const [body, setBody] = useState("")
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const { enqueueSnackbar } = useSnackbar(); // Toast message provider
 
+    /**
+     * Check validity of fields and submit form with title and body of the post
+     */
     const handleSubmit = () => {
-        getNewPost(title, body);//add the new post to posts array of selected user
+
+        const isValidForm = title && body;
+        if (!isValidForm) {
+            enqueueSnackbar("Title and body are required !", {variant: "error"});
+            return;
+        }
+
+        onSubmit(title, body); // add the new post to posts array of selected user
         onClose();
-    }
+    };
+
+
 
     return (<Dialog open={open} onClose={onClose} maxWidth={"sm"} fullWidth={true}>
         <DialogTitle>Add post</DialogTitle>
